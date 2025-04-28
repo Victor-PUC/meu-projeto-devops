@@ -6,29 +6,13 @@ on:
   pull_request:
     branches: [ main ]
 
-build:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v3
-    - name: Rodando o build
-      run: echo "Build concluído com sucesso"
-    - name: Rodando testes unitários
-      run: |
-        python -m unittest discover
-
-test:
-  needs: build
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v3
-    - name: Instalando Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Instalando dependências
-      run: pip install pytest
-    - name: Rodando testes unitários
-      run: pytest test_app.py
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Rodando o build
+        run: echo "Build concluído com sucesso"
 
   alert-discord:
     needs: build
@@ -42,9 +26,18 @@ test:
           -d '{"content": "🚀 Um novo commit/merge foi realizado no projeto meu-projeto-devops!"}' \
           $DISCORD_WEBHOOK
 
-  deploy:
-    runs-on: ubuntu-latest
+  test:
     needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Rodando testes unitários
+        run: |
+          python -m unittest test_app.py
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
     steps:
       - name: Rodando o deploy
         run: echo "Deploy realizado com sucesso"
