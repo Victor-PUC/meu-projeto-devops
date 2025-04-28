@@ -1,14 +1,14 @@
 def test_soma():
-    assert 2 + 2 == 4
+    assert 1 + 1 == 2
 
 def test_subtracao():
     assert 5 - 3 == 2
 
 def test_multiplicacao():
-    assert 3 * 3 == 9
+    assert 2 * 3 == 6
 
 def test_divisao():
-    assert 10 / 2 == 5
+    assert 8 / 2 == 4
 
-def test_texto():
-    assert "Victor" == "Victor"
+def test_modulo():
+    assert 7 % 2 == 1
