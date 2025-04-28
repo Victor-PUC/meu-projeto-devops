@@ -6,13 +6,15 @@ on:
   pull_request:
     branches: [ main ]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Rodando o build
-        run: echo "Build concluído com sucesso"
+build:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v3
+    - name: Rodando o build
+      run: echo "Build concluído com sucesso"
+    - name: Rodando testes unitários
+      run: |
+        python -m unittest discover
 
   alert-discord:
     needs: build
