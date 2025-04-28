@@ -14,6 +14,18 @@ jobs:
       - name: Rodando o build
         run: echo "Build concluído com sucesso"
 
+  alert-discord:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enviando alerta para Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d '{"content": "🚀 Um novo commit/merge foi realizado no projeto meu-projeto-devops!"}' \
+          $DISCORD_WEBHOOK
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
