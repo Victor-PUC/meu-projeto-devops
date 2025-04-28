@@ -26,14 +26,15 @@ jobs:
           -d '{"content": "🚀 Um novo commit/merge foi realizado no projeto meu-projeto-devops!"}' \
           $DISCORD_WEBHOOK
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Rodando testes unitários
-        run: |
-          python -m unittest test_app.py
+test:
+  needs: build
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v3
+    - name: Instalando dependências
+      run: pip install -r requirements.txt
+    - name: Rodando testes unitários
+      run: pytest
 
   deploy:
     needs: test
